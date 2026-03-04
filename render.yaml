@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: il-corridor-monitor-app
+    runtime: node
+    rootDir: server
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: POLL_SECONDS
+        value: 300
+      - key: SAMPLE_LIMIT
+        value: 40
+      - key: BASELINE_ALPHA
+        value: 0.2
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: DATABASE_URL
+        fromDatabase:
+          name: il-corridor-monitor-db
+          property: connectionString
+
+databases:
+  - name: il-corridor-monitor-db
+    plan: starter
